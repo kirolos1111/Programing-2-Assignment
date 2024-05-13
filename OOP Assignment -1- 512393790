@@ -1,0 +1,132 @@
+class Product:
+    _next_product_id = 1
+    supermarket_name = "KirolosSupermarket"
+
+    def __init__(self, name, price, manufacturer, weight, expiration_date, year):
+        self._product_id = Product._next_product_id
+        Product._next_product_id += 1
+        self.name = name
+        self.price = price
+        self.manufacturer = manufacturer
+        self.weight = weight
+        self.expiration_date = expiration_date
+        self.year = year
+
+    def print_product_details(self):
+        print(f"Product ID:  {self._product_id}")
+        print(f"Supermarket: {Product.supermarket_name}")
+        print(f"Name:  {self.name}")
+        print(f"Price: {self.price}")
+        print(f"Manufacturer: {self.manufacturer}")
+        print(f"Weight: {self.weight}")
+        print(f"Expiration Date: {self.expiration_date}")
+        print(f"Year: {self.year}")
+
+
+class Healthy(Product):
+    def __init__(self, product_id, name, price, manufacturer, weight, expiration_date, year, calories=0, components="None"):
+        super().__init__(product_id, name, price, manufacturer, weight, expiration_date, year)
+        self.calories = calories
+        self.components = components or []
+
+    def print_details(self):
+        super().print_product_details()
+        print("Calories per gram:", self.calories)
+        print("Components:", ', '.join(self.components))
+
+    def add_calories(self, calories):
+        self.calories = calories
+
+    def total_calories(self):
+        return self.calories * self.weight
+
+
+def main():
+    while True:
+        print("Welcome to", Product.supermarket_name, "cashier system")
+        print("Choose which sub-system to use:")
+        print("1. Product")
+        print("2. Healthy")
+        print("3. Exit")
+        choice = int(input("Enter your choice: "))
+
+        if choice == 1:  # Product subsystem
+            while True:
+                print("\nPRODUCT SUBSYSTEM")
+                print("1. Add new Product")
+                print("2. Display Product Details")
+                print("3. Change/Edit product_ID")
+                print("4. Exit")
+                sub_choice = int(input("Enter your choice: "))
+
+                if sub_choice == 1:
+                    name = input("Enter product name: ")
+                    price = float(input("Enter product price: "))
+                    manufacturer = input("Enter manufacturer: ")
+                    weight = float(input("Enter product weight: "))
+                    expiration_date = input("Enter expiration date: ")
+                    year = int(input("Enter year: "))
+                    product = Product(name, price, manufacturer, weight, expiration_date, year)
+                    print("Product added successfully!")
+
+                elif sub_choice == 2:
+                    product.print_product_details()
+
+                elif sub_choice == 3:
+                    print("Product ID cannot be edited.")
+
+                elif sub_choice == 4:
+                    break
+
+        elif choice == 2:  # Healthy subsystem
+            while True:
+                print("\nHEALTHY SUBSYSTEM")
+                print("1. Add new Healthy Product")
+                print("2. Display Healthy Product Details")
+                print("3. Change/Edit calories")
+                print("4. Check calories and components of Healthy Product")
+                print("5. Compute total calories")
+                print("6. Exit")
+                sub_choice = int(input("Enter your choice: "))
+
+                if sub_choice == 1:
+                    name = input("Enter product name: ")
+                    price = float(input("Enter product price: "))
+                    manufacturer = input("Enter manufacturer: ")
+                    weight = float(input("Enter product weight: "))
+                    expiration_date = input("Enter expiration date: ")
+                    year = int(input("Enter year: "))
+                    calories = float(input("Enter calories per gram: "))
+                    components = input("Enter product components: ")
+                    product = Healthy(name, price, manufacturer, weight, expiration_date, year, calories, components)
+                    print("Healthy product added successfully!")
+
+                elif sub_choice == 2:
+                    product.print_product_details()
+
+                elif sub_choice == 3:
+                    new_calories = float(input("Enter new calories per gram: "))
+                    product.add_calories(new_calories)
+                    print("Calories updated successfully!")
+
+                elif sub_choice == 4:
+                    print("Calories per gram:", product.calories)
+                    print("Components:", product.components)
+
+                elif sub_choice == 5:
+                    print("Total calories:", product.total_calories())
+
+                elif sub_choice == 6:
+                    break
+
+        elif choice == 3:
+            print("Exiting Supermarket cashier system. Goodbye!")
+            break
+
+        else:
+            print("Invalid choice. Please enter a valid option.")
+
+
+if __name__ == "__main__":
+    main()
+
